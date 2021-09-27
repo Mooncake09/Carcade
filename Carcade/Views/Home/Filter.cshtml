@@ -1,0 +1,54 @@
+﻿@model Carcade.Models.IndexViewModel
+@{
+    ViewData["Title"] = "Информация о платежах";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Информация о платежах</title>
+</head>
+<body>
+    <h3>Платежи</h3>
+    <form method="get" action="~/Home/Filter">
+        <label class="col-form-label" for="date">Дата: </label>
+        <input type="date" id="date" name="date" />
+
+        <label class="col-form-label" for="name">Имя: </label>
+        <input type="text" id="name" name="name" />
+
+        <button type="submit">Отфильтровать</button>
+    </form>
+    <table class="table">
+        <tr>
+            <td class="table-info">Имя клиента</td>
+            <td class="table-info">Дата платежа</td>
+            <td class="table-info">Сумма платежа</td>
+        </tr>
+        @foreach (var payment in Model.CustomerPaymentModels)
+        {
+            <tr>
+                <td>@payment.Name</td>
+                <td>@payment.PaymentDate</td>
+                <td>@payment.Sum</td>
+            </tr>
+        }
+    </table>
+    @if (Model.PageViewModel.HasPreviousPage)
+    {
+        <a asp-action="Filter"
+           asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+           class="btn btn-outline-dark">
+            Назад
+        </a>
+    }
+    @if (Model.PageViewModel.HasNextPage)
+    {
+        <a asp-action="Filter"
+           asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+           class="btn btn-outline-dark">
+            Вперед
+        </a>
+    }
+</body>
+</html>
